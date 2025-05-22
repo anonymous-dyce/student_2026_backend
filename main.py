@@ -21,6 +21,7 @@ from api.post import post_api
 from api.channel import channel_api
 from api.group import group_api
 from api.section import section_api
+from api.leaderboard import leaderboard_api
 from api.nestPost import nestPost_api
 # database Initialization functions
 from model.user import User, initUsers
@@ -29,6 +30,7 @@ from model.group import Group, initGroups
 from model.channel import Channel, initChannels
 from model.post import Post, initPosts
 from model.nestPost import NestPost, initNestPosts
+from model.leaderboard import Leaderboard, initLeaderboards
 
 # Register URIs for API endpoints
 app.register_blueprint(user_api)
@@ -39,6 +41,7 @@ app.register_blueprint(group_api)
 app.register_blueprint(section_api)
 app.register_blueprint(nestPost_api)
 app.register_blueprint(nestImg_api)
+app.register_blueprint(leaderboard_api)
 
 # Tell Flask-Login the view function name of your login route
 login_manager.login_view = "login"
@@ -141,6 +144,7 @@ def generate_data():
     initChannels()
     initPosts()
     initNestPosts()
+    initLeaderboards()
     
 def backup_database(db_uri, backup_uri):
     if backup_uri:

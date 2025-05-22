@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_restful import Api, Resource
-leaderboard_api = Blueprint('leaderboard_api', _name_, url_prefix='/api')
+from __init__ import app, db, login_manager  # Key Flask objects
+leaderboard_api = Blueprint('leaderboard_api', __name__, url_prefix='/api')
 api = Api(leaderboard_api)
 class LeaderboardAPI:
     @staticmethod
