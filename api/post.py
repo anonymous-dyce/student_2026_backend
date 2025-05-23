@@ -5,7 +5,6 @@ from datetime import datetime
 from __init__ import app
 from api.jwt_authorize import token_required
 from model.post import Post
-from model.channel import Channel
 
 """
 This Blueprint object is used to define APIs for the Post model.
@@ -49,13 +48,11 @@ class PostAPI:
                 return {'message': 'Post title is required'}, 400
             if 'comment' not in data:
                 return {'message': 'Post comment is required'}, 400
-            if 'channel_id' not in data:
-                return {'message': 'Channel ID is required'}, 400
             if 'content' not in data:
                 data['content'] = {}
 
             # Create a new post object using the data from the request
-            post = Post(data['title'], data['comment'], current_user.id, data['channel_id'], data['content'])
+            post = Post(data['title'], data['comment'], current_user.id, data['content'])
             # Save the post object using the Object Relational Mapper (ORM) method defined in the model
             post.create()
             # Return response to the client in JSON format, converting Python dictionaries to JSON format
@@ -97,7 +94,6 @@ class PostAPI:
             # Update the post
             post._title = data['title']
             post._content = data['content']
-            post._channel_id = data['channel_id']
             # Save the post
             post.update()
             # Return response
@@ -188,13 +184,6 @@ class PostAPI:
                 return {'message': 'Channel and User data not found'}, 400
             if 'channel_id' not in data:
                 return {'message': 'Channel ID not found'}, 400
-            
-            # Find all posts by channel ID and user ID
-            posts = Post.query.filter_by(_channel_id=data['channel_id']).all()
-            # Prepare a JSON list of all the posts, using list comprehension
-            json_ready = [post.read() for post in posts]
-            # Return a JSON list, converting Python dictionaries to JSON format
-            return jsonify(json_ready)
 
     """
     Map the _CRUD, _USER, _BULK_CRUD, and _FILTER classes to the API endpoints for /post, /post/user, /posts, and /posts/filter.
