@@ -23,6 +23,7 @@ from api.section import section_api
 from api.leaderboard import leaderboard_api
 from api.nestPost import nestPost_api
 from api.lessonquiz import lessonquiz_api
+from api.checklist_progress import checklist_api
 # database Initialization functions
 from model.user import User, initUsers
 from model.section import Section, initSections
@@ -31,6 +32,7 @@ from model.post import Post, initPosts
 from model.nestPost import NestPost, initNestPosts
 from model.leaderboard import LeaderboardEntry, initLeaderboard
 from model.lessonquiz import lessonquiz, initlessonquiz
+from model.checklist_progress import ChecklistProgress, initChecklists
 
 # Register URIs for API endpoints
 app.register_blueprint(user_api)
@@ -42,6 +44,7 @@ app.register_blueprint(nestPost_api)
 app.register_blueprint(nestImg_api)
 app.register_blueprint(leaderboard_api)
 app.register_blueprint(lessonquiz_api)
+app.register_blueprint(checklist_api)
 
 # Tell Flask-Login the view function name of your login route
 login_manager.login_view = "login"
