@@ -148,6 +148,7 @@ def generate_data():
     initNestPosts()
     initLeaderboard()
     initlessonquiz()
+    initChecklists()
     
 def backup_database(db_uri, backup_uri):
     if backup_uri:
