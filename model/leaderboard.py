@@ -68,14 +68,12 @@ class Leaderboard(db.Model):
             dict: A dictionary containing the post data, including user and channel names.
         """
         user = User.query.get(self._user_id)
-        channel = Channel.query.get(self._channel_id)
         data = {
             "id": self.id,
             "title": self._title,
             "comment": self._comment,
             "content": self._content,
             "user_name": user.name if user else None,
-            "channel_name": channel.name if channel else None
         }
         return data
     def update(self):
@@ -152,7 +150,7 @@ def initLeaderboards():
         """Tester data for table"""
         leaderboards = [
             Leaderboard(title='fourth place', comment='10 wins', content={'type': 'announcement'}, user_id=1),
-            Leaderboard(title='fith place', comment='9 wins', content={'type': 'announcement'}, user_id=2),
+            Leaderboard(title='fifth place', comment='9 wins', content={'type': 'announcement'}, user_id=2),
             Leaderboard(title='sixth place', comment='8 wins', content={'type': 'announcement'}, user_id=3),
         ]
         for i in leaderboards:
