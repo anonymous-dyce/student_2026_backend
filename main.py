@@ -30,7 +30,7 @@ from model.group import Group, initGroups
 from model.channel import Channel, initChannels
 from model.post import Post, initPosts
 from model.nestPost import NestPost, initNestPosts
-from model.leaderboard import Leaderboard, initLeaderboards
+from model.leaderboard import LeaderboardEntry, initLeaderboard
 
 # Register URIs for API endpoints
 app.register_blueprint(user_api)
@@ -144,7 +144,7 @@ def generate_data():
     initChannels()
     initPosts()
     initNestPosts()
-    initLeaderboards()
+    initLeaderboard()
     
 def backup_database(db_uri, backup_uri):
     if backup_uri:

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app, Response, g
 from flask_restful import Api, Resource  # Used for REST API building
 from __init__ import app  # Ensure __init__.py initializes your Flask app
-from model.leaderboard import Leaderboard
+from model.leaderboard import LeaderboardEntry
 from api.jwt_authorize import token_required
 # Blueprint for the API
 leaderboard_api = Blueprint('leaderboard_api', __name__, url_prefix='/api')
@@ -17,7 +17,7 @@ class CoolFactsAPI:
             # Obtain the request data sent by the RESTful client API
             data = request.get_json()
             # Create a new post object using the data from the request
-            post = Leaderboard(content=data['_content'], name=data['_title'])
+            post = LeaderboardEntry(player_name=data['player_name'], score=data['score'])
             # Save the post object using the Object Relational Mapper (ORM) method defined in the model
             post.create()
             # Return response to the client in JSON format, converting Python dictionaries to JSON format
@@ -26,7 +26,7 @@ class CoolFactsAPI:
         def get(self):
             try:
                 # Query all entries in the BinaryHistory table
-                entries = Leaderboard.query.all()
+                entries = LeaderboardEntry.query.all()
                 # Convert the entries to a list of dictionaries
                 results = [entry.read() for entry in entries]
                 # Return the list of results in JSON format
