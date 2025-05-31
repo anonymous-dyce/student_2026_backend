@@ -196,6 +196,7 @@ class UserAPI:
                     path='/',
                     samesite='None'  # This is the key part for cross-site requests
                 )
+                print("Generated token:", token)
                 return resp
             except Exception as e:
                 return {

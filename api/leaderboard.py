@@ -8,11 +8,12 @@ leaderboard_api = Blueprint('leaderboard_api', __name__, url_prefix='/api')
 api = Api(leaderboard_api)  # Attach Flask-RESTful API to the Blueprint
 
 
-class CoolFactsAPI:
+class LeaderBoardAPI:
 
 
     class _CRUD(Resource):
-
+        
+        
         def post(self):
             # Obtain the request data sent by the RESTful client API
             data = request.get_json()
@@ -22,6 +23,7 @@ class CoolFactsAPI:
             post.create()
             # Return response to the client in JSON format, converting Python dictionaries to JSON format
             return jsonify(post.read())
+        
         
         def get(self):
             try:

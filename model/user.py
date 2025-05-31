@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from datetime import date
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
+
 import os
 import json
 
@@ -59,6 +60,8 @@ class User(db.Model, UserMixin):
     _role = db.Column(db.String(20), default="User", nullable=False)
     _pfp = db.Column(db.String(255), unique=False, nullable=True)
     _car = db.Column(db.String(255), unique=False, nullable=True)
+    scores = db.relationship("Score", backref="user", lazy=True)
+
    
     posts = db.relationship('Post', backref='author', lazy=True)
                                  
