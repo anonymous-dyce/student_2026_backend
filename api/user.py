@@ -79,7 +79,7 @@ class UserAPI:
             Create a new user.
             """
             body = request.get_json()
-
+            print(body)
             # Validate name
             name = body.get('name')
             if name is None or len(name) < 2:
@@ -95,6 +95,7 @@ class UserAPI:
 
             # Add user to database
             user = user_obj.create(body)  # pass the body elements to be saved in the database
+            print(user)
             if not user:  # failure returns error message
                 return {'message': f'Processed {name}, either a format error or User ID {uid} is duplicate'}, 400
 
@@ -186,18 +187,23 @@ class UserAPI:
                     current_app.config["SECRET_KEY"],
                     algorithm="HS256"
                 )
-                resp = Response(f"Authentication for {user._uid} successful")
-                resp.set_cookie(
+
+                # Combine JSON response and cookie
+                response = jsonify({
+                    "message": f"Authentication for {user._uid} successful",
+                    "token": token
+                })
+                response.set_cookie(
                     current_app.config["JWT_TOKEN_NAME"],
                     token,
                     max_age=3600,
                     secure=True,
                     httponly=True,
                     path='/',
-                    samesite='None'  # This is the key part for cross-site requests
+                    samesite='None'
                 )
                 print("Generated token:", token)
-                return resp
+                return response
             except Exception as e:
                 return {
                     "error": "Something went wrong",
@@ -218,16 +224,18 @@ class UserAPI:
                     algorithm="HS256"
                 )
 
+                
+                
                 # Prepare a response indicating the token has been invalidated
                 resp = Response("Token invalidated successfully")
                 resp.set_cookie(
                     current_app.config["JWT_TOKEN_NAME"],
                     token,
                     max_age=0,  # Immediately expire the cookie
-                    secure=True,
+                    secure=False,
                     httponly=True,
                     path='/',
-                    samesite='None'
+                    samesite='Lax'
                 )
                 return resp
             except Exception as e:
