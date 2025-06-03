@@ -40,20 +40,26 @@ class ScoreAPI:
                 db.session.rollback()
                 return jsonify({"error": str(e)}), 500
 
-        @token_required()
         def get(self):
-            current_user = g.current_user
-            '''Get all scores for the current user'''
             try:
-                scores = Score.query.filter_by(user_id=current_user.id).all()
+                scores = (
+                    db.session.query(Score, User)
+                    .join(User, Score.user_id == User.id)
+                    .all()
+                )
+
                 result = [{
                     "id": score.id,
                     "value": score.value,
-                    "section_id": score.section_id
-                } for score in scores]
+                    "section_id": score.section_id,
+                    "user_id": score.user_id,
+                    "player_name": user.name  # or user.username depending on what your User model uses
+                } for score, user in scores]
+
                 return jsonify(result)
             except Exception as e:
                 return jsonify({"error": str(e)}), 500
+
 
     api.add_resource(_CRUD, '/scores')
 
